@@ -1,0 +1,17 @@
+FROM oracle-jdk-8u121
+MAINTAINER Leo Laksmana <beol@laksmana.com>
+
+RUN curl -sS -L -o /tmp/atlassian-plugin-sdk-6.2.9.noarch.rpm \
+    https://marketplace.atlassian.com/download/plugins/atlassian-plugin-sdk-rpm/version/42380 \
+    && \
+    yum localinstall -y /tmp/atlassian-plugin-sdk-6.2.9.noarch.rpm \
+    && \
+    rm -f /tmp/atlassian-plugin-sdk-6.2.9.noarch.rpm
+
+RUN useradd -m -u 1000 atlas
+
+USER atlas
+WORKDIR /home/atlas
+
+ENTRYPOINT ["atlas-run-standalone"]
+CMD ["--help"]
